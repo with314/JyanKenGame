@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@drawable/border">
+
+    <ImageButton
+        android:id="@+id/rockButton"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="60dp"
+        android:contentDescription="Rock button"
+        android:minWidth="96dp"
+        android:minHeight="96dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/rock"
+        android:background="@drawable/circular_shape"
+        android:clipToOutline="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="じゃんけん勝負だよ～"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/button_to_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ゲームスタート"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
