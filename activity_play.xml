@@ -9,56 +9,46 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@color/light_pink" />
-
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="5dp"-->
-<!--        android:layout_marginTop="525dp"-->
-<!--        android:background="@color/pink" />-->
+        android:background="@color/light_pink"/>
 
     <Button
         android:id="@+id/button_to_main"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="260dp"
-        android:layout_marginTop="16dp"
-        android:text="戻る" />
-
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="戻る"
+        android:fontFamily="@font/dotgothic16_regular"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="#FFB6C1"
+        android:orientation="horizontal"
         android:padding="10dp"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/rockButton"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_weight="1"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/rock"
-            android:contentDescription="Rock button"
             android:background="@drawable/circular_shape"
-            android:clipToOutline="true"/>
+            android:clipToOutline="true"
+            android:contentDescription="Rock button"
+            android:scaleType="fitXY"
+            android:src="@drawable/rock" />
 
         <ImageButton
             android:id="@+id/scissorButton"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/circular_shape"
             android:clipToOutline="true"
-            android:contentDescription="scissor Button"
+            android:contentDescription="Scissor Button"
             android:scaleType="fitXY"
             android:src="@drawable/scissor" />
 
@@ -66,13 +56,9 @@
             android:id="@+id/paperButton"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_weight="1"
-            android:layout_alignTop="@+id/scissorButton"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/circular_shape"
             android:clipToOutline="true"
-            android:contentDescription="paper Button"
+            android:contentDescription="Paper Button"
             android:scaleType="fitXY"
             android:src="@drawable/paper" />
     </LinearLayout>
@@ -81,29 +67,32 @@
         android:id="@+id/playerMove"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/resultText"
-        android:layout_marginStart="100dp"
         android:contentDescription="Player move: Rock"
         android:src="@drawable/rock" />
 
     <ImageView
         android:id="@+id/enemyMove"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignStart="@+id/playerMove"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:contentDescription="Enemy move: Rock"
         android:src="@drawable/rock" />
 
     <TextView
         android:id="@+id/resultText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/enemyMove"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="じゃん　けん　ぽーん～！"
+        android:fontFamily="@font/dotgothic16_regular"
         android:textSize="24sp" />
 
     <ImageView

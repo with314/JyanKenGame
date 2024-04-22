@@ -1,39 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/light_pink"
     android:gravity="center"
-    android:padding="16dp"
-    android:background="@drawable/border">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <ImageButton
-        android:id="@+id/rockButton"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="60dp"
-        android:contentDescription="Rock button"
-        android:minWidth="96dp"
-        android:minHeight="96dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/titleImage"
+            android:layout_width="600dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/circular_shape"
+            android:clipToOutline="true"
+            android:contentDescription="title image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/title"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/titleImage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="45dp"
+            android:fontFamily="@font/dotgothic16_regular"
+            android:gravity="center"
+            android:text="じゃんけんゲーム"
+            android:textColor="@color/purpleColor"
+            android:textSize="27sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/topImage"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-220dp"
+
+        android:background="@drawable/circular_shape"
+        android:clipToOutline="true"
+        android:contentDescription="top image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/top"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/rock"
+        android:layout_width="221dp"
+        android:layout_height="221dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circular_shape"
+        android:clipToOutline="true"
+        android:contentDescription="Rock image"
         android:scaleType="fitXY"
         android:src="@drawable/rock"
-        android:background="@drawable/circular_shape"
-        android:clipToOutline="true" />
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="じゃんけん勝負だよ～"
-        android:textSize="25sp" />
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/dotgothic16_regular"
+        android:textSize="23sp" />
+
+    <ImageView
+        android:id="@+id/talkImage"
+        android:layout_width="279dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-80dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/talk"
+        android:clipToOutline="true"
+        android:contentDescription="talk image"
+        android:scaleType="centerCrop"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/button_to_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ゲームスタート"
-        android:layout_marginTop="16dp"/>
+        android:fontFamily="@font/dotgothic16_regular"/>
 
 </LinearLayout>
