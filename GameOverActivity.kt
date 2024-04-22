@@ -4,23 +4,22 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.Gravity
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-
-
-//TODO 効果の確認。0416
 
 
 class GameOverActivity : AppCompatActivity() {
@@ -53,7 +52,10 @@ class GameOverActivity : AppCompatActivity() {
         val loseCount = intent.getIntExtra("loseCount", 0)
         val drawCount = intent.getIntExtra("drawCount", 0)
 
-//        val resultImageView = findViewById<ImageView>(R.id.result_image_view)
+        againImageView.setOnClickListener {
+
+            buttonToMainActivity.performClick()
+        }
 
         // ボタンリスナーの設定
         buttonToMainActivity.setOnClickListener {
@@ -73,19 +75,30 @@ class GameOverActivity : AppCompatActivity() {
         animateImageView(R.id.bird, R.drawable.bird, 3000L)
 
         val resultMessage = when {
-            winCount > loseCount && winCount > drawCount -> "勝った～"
-            loseCount > winCount && loseCount > drawCount -> "負けた～"
-            drawCount > winCount && drawCount > loseCount -> "引き分け～"
+            winCount > loseCount && winCount > drawCount -> "勝ったね！！"
+            loseCount > winCount && loseCount > drawCount -> "負けた＞＜"
+            drawCount > winCount && drawCount > loseCount -> "引き分けだよ～"
             else -> "もう一回～"
         }
 
         // 結果を画面に表示
-        resultTextView.text = """
+        val spannableText = SpannableString("""
             $resultMessage
-            勝ち: $winCount
-            負け: $loseCount
-            引き分け: $drawCount
-        """.trimIndent()
+        
+            ★勝ち: $winCount
+            ★負け: $loseCount
+            ★引き分け: $drawCount
+            """.trimIndent())
+
+        // resultMessageの部分に大きい文字サイズを適用
+        spannableText.setSpan(
+            RelativeSizeSpan(1.7f),
+            0,
+            resultMessage.length,
+            0
+        )
+
+        resultTextView.text = spannableText
 
         applyImageAndAnimation(resultMessage,  resultImageView, commonAnimation)
 
@@ -125,34 +138,28 @@ class GameOverActivity : AppCompatActivity() {
     private fun applyImageAndAnimation(resultMessage: String, resultImageView: ImageView, commonAnimation: Animation) {
         // 結果に応じた画像の設定
         when (resultMessage) {
-            "勝った～" -> {
-                // 勝ちの場合
-                resultImageView.setImageResource(R.drawable.trophy)
+            "勝ったね！！" -> {
+                resultImageView.setImageResource(R.drawable.win)
                 resultImageView.visibility = View.VISIBLE
-                addRandomImages(R.drawable.heart, 20, commonAnimation)
+                addRandomImages(R.drawable.heart, 30, commonAnimation)
             }
-            "負けた～" -> {
-                // 負けの場合
+            "負けた＞＜" -> {
                 resultImageView.setImageResource(R.drawable.lose)
                 resultImageView.visibility = View.VISIBLE
-                addRandomImages(R.drawable.hone, 20, commonAnimation)
+                addRandomImages(R.drawable.hone, 30, commonAnimation)
             }
-            "引き分け～" -> {
-                // 引き分けの場合
+            "引き分けだよ～" -> {
                 resultImageView.setImageResource(R.drawable.aiko)
                 resultImageView.visibility = View.VISIBLE
-                addRandomImages(R.drawable.bird, 20, commonAnimation)
+                addRandomImages(R.drawable.bird, 30, commonAnimation)
             }
             "もう一回～" -> {
-                // 引き分けの場合
                 resultImageView.setImageResource(R.drawable.again)
                 resultImageView.visibility = View.VISIBLE
-                addRandomImages(R.drawable.again, 20, commonAnimation)
+                addRandomImages(R.drawable.again, 30, commonAnimation)
             }
         }
     }
-
-    //TODO ここから～～
 
     private fun addRandomImages(imageResource: Int, count: Int, animation: Animation) {
         // ルートレイアウトの幅と高さを取得
@@ -173,34 +180,26 @@ class GameOverActivity : AppCompatActivity() {
         }
 
         // 指定された数の画像を追加
-        repeat(count) {
+        for(i in 1..count) {
             val imageView = ImageView(this)
             imageView.setImageResource(imageResource)
 
-//            ViewCompat.setZ(imageView, 1.0f)
-
             // ランダムな幅と高さを設定
-            val width = (50..300).random()
-            val height = (50..300).random()
+            val width = (50..200).random()
+            val height = (50..200).random()
 
             // ランダムな位置を設定
-            val layoutParams = LinearLayout.LayoutParams(width, height)
-            layoutParams.gravity = Gravity.CENTER_HORIZONTAL // 水平方向の中央に配置
-            layoutParams.topMargin = rootHeight / 2 - height / 2 // 垂直方向の中央に配
-
-            layoutParams.leftMargin = (0 until (rootWidth - width)).random()
-            layoutParams.topMargin = (0 until rootHeight).random()
-            layoutParams.topMargin = rootHeight  // 上に舞い上がるために下から始める
+            val layoutParams = FrameLayout.LayoutParams(width, height)
+            layoutParams.leftMargin = (0 until (rootWidth - width)).random().coerceIn(0, rootWidth - width)
+            layoutParams.topMargin = (0 until (rootHeight - height)).random().coerceIn(0, rootHeight - height)
 
             imageView.layoutParams = layoutParams
 
             // ビューが上に移動するアニメーション
             val translateAnimation = TranslateAnimation(0f, 0f, 0f, -rootHeight.toFloat())
-            translateAnimation.startOffset =  0L
-            translateAnimation.duration = (1000L..5000L).random()// ランダムな速度
-            translateAnimation.interpolator = LinearInterpolator()  // イージングを変える
-
-//            translateAnimation.interpolator = AccelerateDecelerateInterpolator() // イージング
+            translateAnimation.startOffset = 0L // 遅延なしで即時開始
+            translateAnimation.duration = 4000L
+            translateAnimation.interpolator = AccelerateInterpolator()  // イージングを変える
 
             // アニメーション終了時にビューを削除
             translateAnimation.setAnimationListener(object : Animation.AnimationListener {
@@ -216,4 +215,3 @@ class GameOverActivity : AppCompatActivity() {
         }
     }
 }
-

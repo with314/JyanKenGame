@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,17 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // レイアウト全体を取得
+        val rootLayout = findViewById<LinearLayout>(R.id.root_layout) // ルートレイアウトのIDを設定
+
+        // クリックリスナーをルートレイアウトに設定
+        rootLayout.setOnClickListener {
+            // PlayActivityに遷移
+            val intent = Intent(this, PlayActivity::class.java)
+            startActivity(intent)
+        }
+
 
         // ボタン要素（オブジェクト）を取得
         val buttonToPlayActivity = findViewById<Button>(R.id.button_to_play)

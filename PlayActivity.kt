@@ -9,6 +9,10 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class PlayActivity(
@@ -108,43 +112,54 @@ class PlayActivity(
         }
 
         // じゃんけんのプレイロジック
+
         private fun playRPSGame(playerSign: Int) {
-            val DRAW = 0
-            val LOSE = 1
-            val WIN = 2
+            // コルーチンを使って非同期処理を実行
+            CoroutineScope(Dispatchers.Main).launch {
+                val DRAW = 0
+                val LOSE = 1
+                val WIN = 2
 
-            val gameResult = mapOf(
-                DRAW to "あいこ",
-                LOSE to "負けだ～",
-                WIN to "勝った～",
-            )
+                val gameResult = mapOf(
+                    DRAW to "あいこ",
+                    LOSE to "負けだ～",
+                    WIN to "勝った～",
+                )
 
-            val enemySign = kotlin.random.Random.nextInt(3)
-            val result = (playerSign - enemySign + 3) % 3
+                // コルーチンでランダムな敵の手を生成
+                val enemySign = withContext(Dispatchers.Default) {
+                    kotlin.random.Random.nextInt(3)
+                }
 
-            handSigns[handsList[playerSign]]?.let { playerMove.setImageResource(it) }
-            handSigns[handsList[enemySign]]?.let { enemyMove.setImageResource(it) }
+                // コルーチン内でじゃんけんの結果を計算
+                val result = (playerSign - enemySign + 3) % 3
 
-            resultText.text = gameResult[result]
+                // UI更新のためにメインスレッドに切り替える
+                withContext(Dispatchers.Main) {
+                    handSigns[handsList[playerSign]]?.let { playerMove.setImageResource(it) }
+                    handSigns[handsList[enemySign]]?.let { enemyMove.setImageResource(it) }
+                    resultText.text = gameResult[result]
 
-            // 結果に応じて勝ち負けを追跡
-            when (result) {
-                WIN -> winCount++
-                LOSE -> loseCount++
-                DRAW -> drawCount++
-            }
+                    // 結果に応じて勝ち負けを追跡
+                    when (result) {
+                        WIN -> winCount++
+                        LOSE -> loseCount++
+                        DRAW -> drawCount++
+                    }
 
-            roundsPlayed++ // プレイした回数を追跡
+                    roundsPlayed++ // プレイした回数を追跡
 
-            // 5回のじゃんけんが終了したら
-            if (roundsPlayed >= 5) {
-                navigateToGameOverActivity()
-            } else if (result == LOSE) {
-                    handleLoss()
+                    // 5回のじゃんけんが終了したら
+                    if (roundsPlayed >= 5) {
+                        navigateToGameOverActivity()
+                    } else if (result == LOSE) {
+                        handleLoss()
+                    }
+                }
             }
         }
 
-        // ハートアイコンの更新
+    // ハートアイコンの更新
         private fun updateHeartIcons() {
             when (playerLives) {
                 2 -> heart3.visibility = View.INVISIBLE
